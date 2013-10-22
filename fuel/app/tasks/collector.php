@@ -3,7 +3,7 @@ namespace Fuel\Tasks;
 
     
     require_once 'Net/NNTP/Client.php';
-    #require_once 'collectorThread.php';
+    require_once 'collectorThread.php';
     #require_once 'writeRSS.php';
 
     
@@ -36,13 +36,15 @@ class Collector
             $user = $group_setting['username'];
             $pass = $group_setting['password'];
             
+            $groupname = $group_setting['name'];
+            
             // ssl ? 
             # http://pear.php.net/manual/en/package.networking.net-nntp.client.connect.php
             if ($nntp->connect($host,$port)) {
                 
                 if ($user) { $nntp->authenticate($user,$pass); }
 
-                $group = $nntp->selectGroup($group_setting['name']);
+                $group = $nntp->selectGroup($groupname);
                 
                 $last = $group['last'];
                 $first = $group_setting['current_article'];
@@ -65,9 +67,11 @@ class Collector
 
                     if ($user) { $nntp->authenticate($user,$pass); }
 
-            // start collector thread.
+                    $callback = new writeRSS();
                     
-                    $threadArray[$thread_number] = new collectorThread($nntp,$articles);
+            // start collector thread.
+                    # http://php.net/manual/en/class.thread.php
+                    $threadArray[$thread_number] = new collectorThread($nntp,$articles,$groupname,$callback,'.*\.nzb.*');
                     $threadArray[$thread_number]->run();
                 }
             }
