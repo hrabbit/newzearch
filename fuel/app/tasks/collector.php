@@ -22,23 +22,63 @@ class Collector
         $query->and_where('NNTPGroup.active', '=', '1');
         $query->execute()->as_array();
         
-        foreach ($query as $group)
+        foreach ($query as $group_setting)
         {
+            var_dump($group_setting);
+
             // get newest article for group
         
-            // new articles array
-        
-            var_dump($group);
+            $nntp = new Net_NNTP_Client();
+
+            $host = $group_setting['hostname'];
+            $port = $group_setting['port'];
             
-            #            print "$group\n";
+            $user = $group_setting['username'];
+            $pass = $group_setting['password'];
+            
+            // ssl ? 
+            # http://pear.php.net/manual/en/package.networking.net-nntp.client.connect.php
+            if ($nntp->connect($host,$port)) {
+                
+                if ($user) { $nntp->authenticate($user,$pass); }
+
+                $group = $nntp->selectGroup($group_setting['name']);
+                
+                $last = $group['last'];
+                $first = $group_setting['current_article'];
+                
+                $nntp->quit();
+                // new articles array
         
-            // for every thread
+                $articles = range($first,$last);
+            
+                # print "$group\n";
         
+                // for every thread
+            
+                // where is thread number setting stored
+            foreach (range(1,8) as $thread_number)
+            {
+                
             // connect to news server
+                if ($nntp->connect($host,$port)) {
+
+                    if ($user) { $nntp->authenticate($user,$pass); }
+
             // start collector thread.
-        
-            // wait for threads to finish
-        
+                    
+                    $threadArray[$thread_number] = new collectorThread($nntp,$articles);
+                    $threadArray[$thread_number]->run();
+                }
+            }
+                // wait for threads to finish
+                
+                foreach ($threadArray as $thread)
+                {
+                    $thread->join();
+                }
+                
+            }
         }
 
     }
