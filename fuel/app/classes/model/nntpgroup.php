@@ -15,15 +15,4 @@ class Model_Nntpgroup extends \Model
 		'updated_at',
 	);
 
-
-	public static function getAllActive()
-	{
-		return \DB::select()
-			->from('NNTPGroups')
-			->join('NNTPServers')
-			->on('NNTPGroups.NNTPServers_id', '=', 'NNTPServers.id')
-			->where(...)
-			->execute()
-			->as_array();
-	}
 }
