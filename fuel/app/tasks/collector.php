@@ -15,14 +15,8 @@ class Collector
 
         // get settings from DB
     
-        $query = DB::select('hostname','port','ssl','username','password','name','current_article')->from('NNTPGroup');
-        $query->join('NNTPServer');
-        $query->on('NNTPGroup.NNTPServer_id', '=', 'NNTPServer.id');
-        $query->where('NNTPGroup.active', '=', '1');
-        $query->and_where('NNTPGroup.active', '=', '1');
-        $query->execute()->as_array();
         
-        foreach ($query as $group_setting)
+        foreach (\Module_nntpgroup::getAllActive() as $group_setting)
         {
             var_dump($group_setting);
 

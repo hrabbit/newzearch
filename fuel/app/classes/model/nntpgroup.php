@@ -16,14 +16,16 @@ class Model_Nntpgroup extends \Model
 	);
 
 
-	public static getAllActive() {
+	public static function getAllActive() {
 
-		$query = DB::select('hostname','port','ssl','username','password','name','current_article')->from('NNTPGroup');
-		$query->join('NNTPServer');
-		$query->on('NNTPGroup.NNTPServer_id', '=', 'NNTPServer.id');
-		$query->where('NNTPGroup.active', '=', '1');
-		$query->and_where('NNTPGroup.active', '=', '1');
-		return $query->execute()->as_array();
+		return \DB::select()
+			->from('NNTPGroup')
+			->join('NNTPServer')
+			->on('NNTPGroup.NNTPServer_id', '=', 'NNTPServer.id')
+			->where('NNTPGroup.active', '=', '1')
+			->and_where('NNTPGroup.active', '=', '1')
+			->execute()
+			->as_array();
 	}
 
 }
