@@ -2,14 +2,15 @@
 
 namespace Fuel\Migrations;
 
-class Create_settings
+class Create_usergroups
 {
 	public function up()
 	{
-		\DBUtil::create_table('settings', array(
+		\DBUtil::create_table('usergroups', array(
 			'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true, 'unsigned' => true),
-			'key' => array('constraint' => 255, 'type' => 'varchar'),
-			'value' => array('constraint' => 255, 'type' => 'varchar'),
+			'name' => array('constraint' => 255, 'type' => 'varchar'),
+			'level' => array('constraint' => 11, 'type' => 'int'),
+			'active' => array('type' => 'boolean'),
 			'created_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
 			'updated_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
 
@@ -18,6 +19,6 @@ class Create_settings
 
 	public function down()
 	{
-		\DBUtil::drop_table('settings');
+		\DBUtil::drop_table('usergroups');
 	}
 }
