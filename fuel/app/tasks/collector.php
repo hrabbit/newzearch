@@ -1,37 +1,45 @@
-#!/usr/bin/php
-
 <?php
+namespace Fuel\Tasks;
+
     
     require_once 'Net/NNTP/Client.php';
     #require_once 'collectorThread.php';
     #require_once 'writeRSS.php';
-    
-    # if (! function_exists('pcntl_fork')) die('PCNTL functions not available on this PHP installation');
-    
-    $propFilename = "collector.json";
-    
-    $fis = file_get_contents ($propFilename);
-    $prop = json_decode($fis);
-    
-    var_dump($prop['CurrentArticles']);
-    
-    #$prop['NewsServerPort'] = 119;
-    #$prop['NewsServerHost'] = "news.netspace.net.au";
-    #$prop['NewsServerUser'] = "";
-    #$prop['NewsServerPass'] = "";
 
-    #$prop['Threads'] = 8;
-    #$prop['CurrentArticles'] = array('alt.binaries.teevee' => 426022395);
     
-    #$fos = json_encode($prop);
+class Collector
+{
     
-    #file_put_contents ($propFilename,$fos);
-    
-    foreach ($prop['CurrentArticles'] as $group => $articles)
+    public function run()
     {
-    
-        print "$group $articles\n";
-        
-    }
 
+        // get settings from DB
+    
+        $query = DB::select('hostname','port','ssl','username','password','name','current_article')->from('NNTPGroup');
+        $query->join('NNTPServer');
+        $query->on('NNTPGroup.NNTPServer_id', '=', 'NNTPServer.id');
+        $query->where('NNTPGroup.active', '=', '1');
+        $query->and_where('NNTPGroup.active', '=', '1');
+        $query->execute()->as_array();
+        
+        foreach ($query as $group)
+        {
+            // get newest article for group
+        
+            // new articles array
+        
+            var_dump($group);
+            
+            #            print "$group\n";
+        
+            // for every thread
+        
+            // connect to news server
+            // start collector thread.
+        
+            // wait for threads to finish
+        
+        }
+
+    }
 ?>
