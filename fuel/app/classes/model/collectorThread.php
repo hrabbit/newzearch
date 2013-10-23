@@ -1,6 +1,6 @@
 <?php
     
-    class collectorThread extends Thread {
+    class Model_collectorthread extends Thread {
         
         private $nntpconnection;
         private $matched;
