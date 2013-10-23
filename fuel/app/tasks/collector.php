@@ -2,8 +2,8 @@
 namespace Fuel\Tasks;
 
     # require_once '\Module_nntpclient.php';
-    require_once 'collectorThread.php';
-    #require_once 'writeRSS.php';
+    # require_once 'collectorThread.php';
+    # require_once 'writeRSS.php';
 
     
 class Collector

@@ -14,5 +14,6 @@ class Model_Nntparticle extends \Model
 		'updated_at',
 	);
 
+    
 
 }
