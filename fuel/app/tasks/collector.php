@@ -1,8 +1,7 @@
 <?php
 namespace Fuel\Tasks;
 
-    
-    require_once 'Net/NNTP/Client.php';
+    # require_once '\Module_nntpclient.php';
     require_once 'collectorThread.php';
     #require_once 'writeRSS.php';
 
@@ -22,10 +21,11 @@ class Collector
 
             // get newest article for group
         
-            $nntp = new Net_NNTP_Client();
+            $nntp = new \Module_nntpclient();
 
             $host = $group_setting['hostname'];
             $port = $group_setting['port'];
+            $ssl = $group_setting['ssl'];
             
             $user = $group_setting['username'];
             $pass = $group_setting['password'];
@@ -34,10 +34,8 @@ class Collector
             
             // ssl ? 
             # http://pear.php.net/manual/en/package.networking.net-nntp.client.connect.php
-            if ($nntp->connect($host,$port)) {
+            if ($nntp->connect($host,$ssl,$port,$user,$pass)) {
                 
-                if ($user) { $nntp->authenticate($user,$pass); }
-
                 $group = $nntp->selectGroup($groupname);
                 
                 $last = $group['last'];
@@ -56,10 +54,10 @@ class Collector
             foreach (range(1,8) as $thread_number)
             {
                 
-            // connect to news server
-                if ($nntp->connect($host,$port)) {
+                $nntp = new \Module_nntpclient();
 
-                    if ($user) { $nntp->authenticate($user,$pass); }
+            // connect to news server
+                if ($nntp->connect($host,$ssl,$port,$user,$pass)) {
 
                     $callback = new writeRSS();
                     
