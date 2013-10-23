@@ -16,8 +16,11 @@ class Model_Nntparticle extends \Model
 
     public static processArticle($header)
     {
+        // have to remember what is passed in through header
         
-        \DB::insert
+        \DB::insert($_table_name)
+            ->columns(array('message_id','title','creation_time','description'))
+        ->values(array('blah','blah'));
         
         
     }
