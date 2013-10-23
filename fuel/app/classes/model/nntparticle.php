@@ -14,6 +14,12 @@ class Model_Nntparticle extends \Model
 		'updated_at',
 	);
 
-    
+    public static processArticle($header)
+    {
+        
+        \DB::insert
+        
+        
+    }
 
 }

@@ -59,11 +59,11 @@ class Collector
             // connect to news server
                 if ($nntp->connect($host,$ssl,$port,$user,$pass)) {
 
-                    $callback = new writeRSS();
+                    $callback = new \Model_nntparticle();
                     
             // start collector thread.
                     # http://php.net/manual/en/class.thread.php
-                    $threadArray[$thread_number] = new collectorThread($nntp,$articles,$groupname,$callback,'.*\.nzb.*');
+                    $threadArray[$thread_number] = new \Model_collectorthread($nntp,$articles,$groupname,$callback,'.*\.nzb.*');
                     $threadArray[$thread_number]->run();
                 }
             }
