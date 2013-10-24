@@ -1,23 +1,31 @@
 <?php
 
-class Controller_Base extends Controller_Template {
+class Controller_Base extends Controller_Template 
+{
+	public $template = 'base/template';
 
 	public function before()
 	{
 		parent::before();
 
-		// Assign current_user to the instance so controllers can use it
-		if (Config::get('auth.driver', 'Simpleauth') == 'Ormauth')
-		{
-			$this->current_user = Auth::check() ? Model\Auth_User::find_by_username(Auth::get_screen_name()) : null;
-		}
-		else
-		{
-			$this->current_user = Auth::check() ? Model_User::find_by_username(Auth::get_screen_name()) : null;
-		}
+		$assets['js']['top'] = array(
+				'//code.jquery.com/jquery.js',
+			);
+		$assets['js']['bottom'] = array(
+				'bootstrap.min.js',
+			);
+		$assets['css']['top'] = array(
+				'bootstrap.min.css',
+				'bootstrap-responsive.min.css',
+			);
+		
+		\Asset::js($assets['js']['top'], array(), 'js_top');
+		\Asset::js($assets['js']['bottom'], array(), 'js_bottom');
+		\Asset::css($assets['css']['top'], array(), 'css_top');
 
+		$this->template->set_global('newzearch', \Model_SystemSetting::getAll());
 		// Set a global variable so views can use it
-		View::set_global('current_user', $this->current_user);
+		$this->template->set_global('session', \Session::get());
 	}
 
 }
