@@ -18,9 +18,25 @@ class Model_Nntparticle extends \Model
     {
         // have to remember what is passed in through header
         
+        $message_id = $header['Message-ID'];
+        $title = $header['Subject'];
+        
+        $time = date( 'Y-m-d H:i:s', strtotime ($header['Date']) );
+
+        
+        $description =
+        "Bytes: " . $header['Bytes'] .
+        " Lines: " . $header['Lines'] .
+        " Path: " . $header['Path'] .
+        " From: " . $header['From'] .
+        " Newsgroups: " . $header['Newsgroups'] .
+        " Organization: " . $header['Organization'] .
+        " NNTP-Posting-Host: " . $header['NNTP-Posting-Host'] .
+        " Xref: " . $header['Xref'];
+        
         \DB::insert($_table_name)
             ->columns(array('message_id','title','creation_time','description'))
-        ->values(array('blah','blah'));
+        ->values(array($message_id,$title,$time,$description));
         
         
     }
