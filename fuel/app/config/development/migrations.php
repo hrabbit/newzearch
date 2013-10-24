@@ -14,6 +14,7 @@ return array(
 				5 => '006_create_usersettings',
 				6 => '007_create_systemsettings',
 				7 => '008_create_usersearches',
+				8 => '009_create_newsarticles',
 			),
 		),
 		'module' => 
