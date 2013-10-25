@@ -33,9 +33,19 @@ class Controller_Welcome extends Controller_Base
 		if(!\Session::get('id'))
 			\Response::redirect('news');
 
+		// die(Uri::segment(3));
 		$this->template->content = \View::forge('welcome/index');
 
-		$this->template->content->articles = \Model_NNTPArticle::getNewest(\Config::get('newzearch:article_limit', 10));
+		$pagination = Pagination::forge('mypagination', array(
+    		// 'pagination_url' => 'http://docs.fuelphp.com/',
+    		'uri_segment' => 3,
+    		'total_items' => \Model_NNTPArticle::countArticles(),
+    		'per_page' => \Config::get('newzearch:article_limit', 20),
+    		'show_first' => true,
+    		'show_last' => true,
+		));
+
+		$this->template->content->articles = \Model_NNTPArticle::getNewest($pagination->per_page, $pagination->offset);
 
 	}
 
