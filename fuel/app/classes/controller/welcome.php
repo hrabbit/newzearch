@@ -36,7 +36,7 @@ class Controller_Welcome extends Controller_Base
 		$this->template->content = \View::forge('welcome/index');
 
 		$this->template->content->articles = \Model_NNTPArticle::getNewest(\Config::get('newzearch:article_limit', 10));
-		// return Response::forge(View::forge('welcome/index'));
+
 	}
 
 	/**
