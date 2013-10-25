@@ -41,12 +41,23 @@ class Model_Nntparticle extends \Model
         
     }
 
-    public static function getNewest($limit = 50)
+    public static function getNewest($limit = 50, $offset)
     {
         return \DB::select()
             ->from(self::$_table_name)
             ->order_by('creation_time', 'DESC')
             ->limit($limit)
+            ->offset($offset)
             ->execute();
+    }
+
+    public static function countArticles()
+    {
+        $result = \DB::select(\DB::expr('count(*) AS articles'))
+            ->from('nntparticles')
+            ->limit(1)
+            ->execute()
+            ->current();
+        return $result['articles'];
     }
 }
