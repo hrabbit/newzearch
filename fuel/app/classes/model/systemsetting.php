@@ -12,6 +12,28 @@ class Model_Systemsetting extends \Model
 		'updated_at',
 	);
 
+    public static function add($key = string, $value = string)
+    {
+        // This is bad, we need it to update, not delete and re-add.
+        // self::delete($key);
+        // \DB::insert('systemsettings')
+        //     ->set(array(
+        //         $key => $value,
+        //         'updated_at' => date('Y-m-d H:i:s'),
+        //     ))
+        //     ->execute();
+
+    }
+
+    public static function remove($key = string)
+    {
+        \DB::delete()
+            ->from('systemsettings')
+            ->where('key', '=', $key)
+            ->limit(1)
+            ->execute();
+    }
+
     public static function getAll()
     {
         $result = \DB::select(
