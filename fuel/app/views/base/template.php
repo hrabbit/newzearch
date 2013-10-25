@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <div style="margin-top: 40px" class="container">
+        <div style="margin-top: 50px" class="container">
             <?=!empty($content) ? $content : ''?>
         </div>
 
