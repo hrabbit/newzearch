@@ -14,7 +14,7 @@ class Model_Nntparticle extends \Model
 		'updated_at',
 	);
 
-    public static processArticle($header)
+    public static function processArticle($header)
     {
         // have to remember what is passed in through header
         
@@ -41,4 +41,12 @@ class Model_Nntparticle extends \Model
         
     }
 
+    public static function getNewest($limit = 50)
+    {
+        return \DB::select()
+            ->from(self::$_table_name)
+            ->order_by('creation_time', 'DESC')
+            ->limit($limit)
+            ->execute();
+    }
 }
