@@ -18,9 +18,11 @@
                         <input type="text" class="search-query" placeholder="Search">
                     </form>
                     <ul class="nav pull-right">
-                        <li><a href="/account/rss">RSS</a></li>
-                        <li><a href="/account/settings">Settings</a></li>
-                        <li><a href="/account/logout">Logout</a></li>
+                        <li><?=\Html::anchor('news', 'News')?></li>
+                        <li><?=\Html::anchor('/', 'Recent')?></li>
+                        <li><?=\Html::anchor('account/rss', 'RSS')?></li>
+                        <li><?=\Html::anchor('account/settings', 'Settings')?></li>
+                        <li><?=\Html::anchor('account/logout', 'Logout')?></li>
                     </ul>
                     <?php else: ?>
                     <ul class="nav pull-right">
