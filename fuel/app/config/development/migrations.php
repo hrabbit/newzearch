@@ -15,6 +15,7 @@ return array(
 				6 => '007_create_systemsettings',
 				7 => '008_create_usersearches',
 				8 => '009_create_newsarticles',
+				9 => '010_create_newscomments',
 			),
 		),
 		'module' => 
