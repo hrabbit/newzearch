@@ -14,3 +14,4 @@ nbproject/
 .idea
 ._*
 /fuel/app/config/crypt.php
+/fuel/app/tmp
