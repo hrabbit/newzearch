@@ -16,9 +16,9 @@
 Autoloader::add_classes(array(
     'Net_NNTP_Client' => __DIR__.'/Net/NNTP/Client.php',
     'Net_NNTP_Protocol_Client' => __DIR__.'/Net/NNTP/Protocol/Client.php',
-    'Net_NNTP_Protocol_ResponseCode' => __DIR__.'/Net/NNTP/Protocol/Responsecode.php',
-
 ));
+
+require_once('Net/NNTP/Protocol/Responsecode.php');
 
 /* End of file bootstrap.php */
 
