@@ -1,14 +1,9 @@
 <?php
 
-    require_once 'Net/NNTP/Client.php';
-
     class Model_nntpclient extends Net_NNTP_Client
     {
-        
-        
-	public function connect (string $host, mixed $encryption, int $port, string $user=null, string $pass=null)
+        public function conn($host = string, $ssl = string, $port = int, $user = null, $pass = null)
         {
-            
             if (!$ssl) { $ssl = false; }
             
             if (parent::connect($host,$ssl,$port)) {
