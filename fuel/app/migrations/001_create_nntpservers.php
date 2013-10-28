@@ -18,6 +18,15 @@ class Create_nntpservers
 			'updated_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
 
 		), array('id'));
+		
+		\DB::insert('nntpservers')->set(array(
+			'hostname' => 'us.news.astraweb.com',
+			'port' => '119',
+			'ssl' => '',
+			'username' => '',
+			'password' => '',
+			'active' => 1,
+ 		))->execute();
 	}
 
 	public function down()

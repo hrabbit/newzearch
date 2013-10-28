@@ -14,6 +14,10 @@ class Create_systemsettings
 			'updated_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
 
 		), array('id'));
+
+		\DB::insert('systemsettings')->set(array('key' => 'title', 'value' => 'NewZearch'))->execute();
+		\DB::insert('systemsettings')->set(array('key' => 'threads', 'value' => '8'))->execute();
+		\DB::insert('systemsettings')->set(array('key' => 'rewind_limit', 'value' => '1000'))->execute();
 	}
 
 	public function down()
