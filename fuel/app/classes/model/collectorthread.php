@@ -5,25 +5,28 @@ use \Cli;
 class Model_collectorthread // extends Thread 
 {
     
+    private $sem_id;
+    private $shm_id;
+    private $last;
     private $nntpconnection;
     private $matched;
     private $callback;
     private $group;
-    private $artcleList;
     private static $verbose = 0;
     
     // $threadArray[$thread_number] = new \Model_collectorthread($nntp,$articles,$nntpgroup['name'],$callback,'.*\.nzb.*');
 
     // function __construct($nn, $al, $nn, $grp, $ma) {
-    function __construct($nntp, $articles, $group, $callback, $matched) {
+    function __construct($seid, $shid, $end, $nntp, $articles, $group, $callback, $matched) {
         
         $this->nntpconnection = $nntp;
-        $this->articleList = $articles;
         // $this->setNNTPMatchedArticle($nma);
         $this->group = $group;
         $this->matched = $matched;
         $this->callback = $callback;
-        
+        $this->sem_id = $seid;
+        $this->shm_id = $shid;
+        $this->$last = $end;
     }
 
     private static function message($msg = string, $colour = 'yellow', $level = 0)
@@ -49,7 +52,12 @@ class Model_collectorthread // extends Thread
             
             $this->nntpconnection->selectGroup($this->group);
             
-            while ($i = array_shift($this->articleList)) {
+            sem_acquire($sem_id);
+            $i = shm_get_var($shm_id,1);
+            shm_put_var($shm_id,1,$i+1);
+            sem_release($sem_id);
+            
+            while ($i < $this->last) {
                 
                 
                 $lines = $this->nntpconnection->getHeader($i);
@@ -72,9 +80,14 @@ class Model_collectorthread // extends Thread
                     self::message(sprintf(' - - Heading: %s', $headers['Subject'], 'green', 4));
                 
                 
+                sem_acquire($sem_id);
+                $i = shm_get_var($shm_id,1);
+                shm_put_var($shm_id,1,$i+1);
+                sem_release($sem_id);
+                
             }
             
-        } while ($i);
+        } while ($i<$this->last);
         
 }
 
